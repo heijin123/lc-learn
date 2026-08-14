@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 开发工程师学习计划 - 21天系统掌握</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent-1: #ef4444;
+            --accent-2: #f59e0b;
+            --accent-3: #10b981;
+            --accent-4: #3b82f6;
+            --accent-5: #8b5cf6;
+            --accent-6: #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 0;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%);
+            color: white;
+            padding: 60px 20px 50px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.4em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15em;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .hero .badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero .badge {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Overview Section */
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .stat-card .number {
+            font-size: 2em;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-card .label {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Roadmap */
+        .roadmap {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .roadmap-phase {
+            flex: 1;
+            min-width: 200px;
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            position: relative;
+        }
+
+        .roadmap-phase:nth-child(1) { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .roadmap-phase:nth-child(2) { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .roadmap-phase:nth-child(3) { background: linear-gradient(135deg, #10b981, #059669); }
+
+        .roadmap-phase .phase-num {
+            font-size: 0.75em;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .roadmap-phase .phase-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin: 6px 0 10px;
+        }
+
+        .roadmap-phase .phase-desc {
+            font-size: 0.82em;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .roadmap-phase .phase-days {
+            font-size: 0.78em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.85;
+        }
+
+        /* Week Section */
+        .week-section {
+            margin-bottom: 50px;
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .week-header .week-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            color: white;
+            font-weight: 700;
+        }
+
+        .week-header h2 {
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+
+        .week-header .week-goal {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        /* Day Card */
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            transition: box-shadow 0.2s;
+        }
+
+        .day-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .day-title {
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .day-title .day-num {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        .day-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.72em;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .tag-theory { background: #dbeafe; color: #1e40af; }
+        .tag-practice { background: #dcfce7; color: #166534; }
+        .tag-project { background: #fce7f3; color: #9f1239; }
+        .tag-hours { background: #f3f4f6; color: #374151; }
+
+        /* Time Block */
+        .time-block {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .time-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .time-block:first-child {
+            padding-top: 0;
+        }
+
+        .time-label {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95em;
+            text-align: center;
+            padding-top: 2px;
+        }
+
+        .time-content h4 {
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .time-content p {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 6px;
+        }
+
+        .resource-list li {
+            font-size: 0.82em;
+            padding: 3px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .resource-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-light);
+            font-weight: 700;
+        }
+
+        .resource-list a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary-light);
+            transition: all 0.15s;
+        }
+
+        .resource-list a:hover {
+            color: var(--accent-4);
+            border-bottom-style: solid;
+        }
+
+        .resource-type {
+            display: inline-block;
+            font-size: 0.7em;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .type-doc { background: #fef3c7; color: #92400e; }
+        .type-video { background: #fee2e2; color: #991b1b; }
+        .type-paper { background: #e0e7ff; color: #3730a3; }
+        .type-code { background: #d1fae5; color: #065f46; }
+        .type-tool { background: #f3e8ff; color: #6b21a8; }
+        .type-course { background: #ffedd5; color: #9a3412; }
+
+        /* Resources Section */
+        .resources-section {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+
+        .resources-section h2 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .resource-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .resource-card h4 {
+            font-size: 0.95em;
+            margin-bottom: 6px;
+        }
+
+        .resource-card p {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .resource-card a {
+            font-size: 0.8em;
+            color: var(--primary);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: linear-gradient(135deg, #f0f4ff, #f5f3ff);
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #c7d2fe;
+        }
+
+        .tips-section h2 {
+            font-size: 1.3em;
+            margin-bottom: 16px;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-section li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            font-size: 0.9em;
+        }
+
+        .tips-section li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: var(--accent-2);
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .time-block {
+                grid-template-columns: 50px 1fr;
+                gap: 10px;
+            }
+            .hero h1 { font-size: 1.6em; }
+            .roadmap { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Agent 开发工程师学习计划</h1>
+    <p class="subtitle">21 天系统掌握 — 从经典范式到企业级工程化</p>
+    <div class="badges">
+        <span class="badge">Python 生态</span>
+        <span class="badge">每天 5 小时</span>
+        <span class="badge">总计 ~105 小时</span>
+        <span class="badge">理论 + 实战</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Overview -->
+    <div class="overview">
+        <div class="stat-card">
+            <div class="number">21</div>
+            <div class="label">学习天数</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">~105h</div>
+            <div class="label">总学时</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">3</div>
+            <div class="label">核心框架</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">15+</div>
+            <div class="label">实战项目</div>
+        </div>
+        <div class="stat-card">
+            <div class="number">30+</div>
+            <div class="label">学习资源</div>
+        </div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="roadmap">
+        <div class="roadmap-phase">
+            <div class="phase-num">Phase 1</div>
+            <div class="phase-title">基础与经典范式</div>
+            <div class="phase-desc">Agent 概念、ReAct、Plan-and-Execute、Tool Calling、LangGraph 入门</div>
+            <div class="phase-days">Day 1 - 7 | ~35h</div>
+        </div>
+        <div class="roadmap-phase">
+            <div class="phase-num">Phase 2</div>
+            <div class="phase-title">多智能体与框架</div>
+            <div class="phase-desc">LangGraph 高级、AutoGen、CrewAI、MCP 协议、框架对比</div>
+            <div class="phase-days">Day 8 - 14 | ~35h</div>
+        </div>
+        <div class="roadmap-phase">
+            <div class="phase-num">Phase 3</div>
+            <div class="phase-title">工程化与项目实战</div>
+            <div class="phase-desc">记忆系统、RAG、评估体系、可观测性、生产部署、毕业项目</div>
+            <div class="phase-days">Day 15 - 21 | ~35h</div>
+        </div>
+    </div>
+
+    <!-- ==================== WEEK 1 ==================== -->
+    <div class="week-section">
+        <div class="week-header">
+            <div class="week-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">W1</div>
+            <div>
+                <h2>第一周：智能体基础与经典范式</h2>
+                <div class="week-goal">目标：理解 Agent 核心概念，掌握 ReAct / Plan-and-Execute 等经典范式，入门 LangGraph</div>
+            </div>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 1</span>Agent 概念全景 + 环境搭建</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>初识智能体：概念、类型与范式</h4>
+                    <p>系统理解 Agent 的定义、核心架构（规划+记忆+工具调用）、与 LLM/RAG 的本质区别</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第一章「初识智能体」<span class="resource-type type-doc">文档</span>
+                            <a href="https://github.com/datawhalechina/hello-agents" target="_blank">github.com/datawhalechina/hello-agents</a></li>
+                        <li>在线阅读（国内加速）<span class="resource-type type-doc">文档</span>
+                            <a href="https://www.datawhale.cn/learn/summary/239" target="_blank">datawhale.cn/learn/summary/239</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>智能体发展史：从符号主义到 LLM Agent</h4>
+                    <p>了解 Agent 技术演进脉络，建立对技术发展趋势的判断力</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第二章「智能体发展史」<span class="resource-type type-doc">文档</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Anthropic 经典工程博客：Building Effective Agents</h4>
+                    <p>这是 Agent 领域最重要的工程实践文章之一，理解 Workflow vs Agent 的区别，掌握 6 种核心模式</p>
+                    <ul class="resource-list">
+                        <li>英文原文 <span class="resource-type type-doc">文档</span>
+                            <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank">anthropic.com/engineering/building-effective-agents</a></li>
+                        <li>中文翻译 <span class="resource-type type-doc">文档</span>
+                            <a href="https://juejin.cn/post/7633072198217383986" target="_blank">juejin.cn/post/7633072198217383986</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>开发环境搭建</h4>
+                    <p>Python 虚拟环境、OpenAI API Key 配置、LangChain + LangGraph 安装</p>
+                    <ul class="resource-list">
+                        <li>LangChain 安装指南 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/get_started/introduction" target="_blank">python.langchain.com/docs/get_started/introduction</a></li>
+                        <li>LangGraph 安装 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/introduction/" target="_blank">langchain-ai.github.io/langgraph/tutorials/introduction</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：跑通第一个 LangChain Agent</h4>
+                    <p>使用 create_react_agent 快速创建一个带工具的 Agent，理解 Agent 的基本运行流程</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Quickstart <span class="resource-type type-code">代码</span>
+                            <a href="https://python.langchain.com/docs/langgraph/" target="_blank">python.langchain.com/docs/langgraph</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 2</span>LLM 基础巩固 + Function Calling</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>大语言模型基础回顾</h4>
+                    <p>Transformer 架构、Token 化、上下文窗口、Temperature 等核心概念，为后续 Agent 学习打下基础</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第三章「大语言模型基础」<span class="resource-type type-doc">文档</span></li>
+                        <li>吴恩达《ChatGPT 提示工程》中英双语字幕版 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1Bo4y1A7FU/" target="_blank">bilibili.com/BV1Bo4y1A7FU</a></li>
+                        <li>Datawhale《Prompt Engineering for Developers 中文版》<span class="resource-type type-doc">文档</span>
+                            <a href="https://github.com/datawhalechina/prompt-engineering-for-developers" target="_blank">github.com/datawhalechina — 中文版教程</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>OpenAI Function Calling 精讲</h4>
+                    <p>理解 Function Calling 的底层机制，这是所有 Agent 工具调用的基础</p>
+                    <ul class="resource-list">
+                        <li>OpenAI Function Calling 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://platform.openai.com/docs/guides/function-calling" target="_blank">platform.openai.com/docs/guides/function-calling</a></li>
+                        <li>《吃透 LangChain 全套教程》第 59-76 集：Tool / Function Calling / Agent <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1iXCLB5EEb/" target="_blank">bilibili.com/BV1iXCLB5EEb</a></li>
+                        <li>【2025版】LangChain1.0 第 3 章：AI 工具机制实战 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV14bqhBsEVX/" target="_blank">bilibili.com/BV14bqhBsEVX</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用原生 OpenAI API 实现 Function Calling</h4>
+                    <p>不使用任何框架，直接用 OpenAI SDK 实现工具调用，理解底层原理后再看框架会事半功倍</p>
+                    <ul class="resource-list">
+                        <li>OpenAI Cookbook — Function Calling 示例 <span class="resource-type type-code">代码</span>
+                            <a href="https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models" target="_blank">cookbook.openai.com — Function Calling</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 3</span>ReAct 范式精讲与手写实现</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>ReAct 论文精读</h4>
+                    <p>Agent 领域的 "Hello World" 论文，理解 Reasoning + Acting 交替循环的核心思想</p>
+                    <ul class="resource-list">
+                        <li>ReAct: Synergizing Reasoning and Acting in Language Models <span class="resource-type type-paper">论文</span>
+                            <a href="https://arxiv.org/abs/2210.03629" target="_blank">arxiv.org/abs/2210.03629</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Hello-Agents 第四章：ReAct 范式构建</h4>
+                    <p>跟随教程理解 Thought → Action → Observation 循环</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第四章「智能体经典范式构建」<span class="resource-type type-doc">文档</span></li>
+                        <li>AgentGuide 路线图 — ReAct 部分 <span class="resource-type type-doc">文档</span>
+                            <a href="https://github.com/adongwanai/AgentGuide/blob/main/docs/05-roadmaps/learning-roadmap-development.md" target="_blank">github.com/adongwanai/AgentGuide</a></li>
+                        <li>《ReAct & CodeAct 工具调用双讲》<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1wXZfYRErX/" target="_blank">bilibili.com/BV1wXZfYRErX</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangChain ReAct Agent 源码分析</h4>
+                    <p>阅读 LangChain 中 ReAct Agent 的实现，理解框架如何封装 Thought-Action-Observation 循环</p>
+                    <ul class="resource-list">
+                        <li>LangChain Agents 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/modules/agents/" target="_blank">python.langchain.com/docs/modules/agents</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：从零手写 ReAct Agent</h4>
+                    <p>不使用 LangChain，用纯 Python + OpenAI API 手写一个完整的 ReAct Agent，支持多工具调用</p>
+                    <ul class="resource-list">
+                        <li>参考 Hello-Agents 第七章「构建你的 Agent 框架」<span class="resource-type type-code">代码</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 4</span>Plan-and-Execute + Reflection 范式</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>Plan-and-Solve 与 Reflection 范式</h4>
+                    <p>理解「先规划后执行」的双阶段模式和自我反思改进机制</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第四章 — Plan-and-Solve / Reflection 部分 <span class="resource-type type-doc">文档</span></li>
+                        <li>Reflexion 论文 <span class="resource-type type-paper">论文</span>
+                            <a href="https://arxiv.org/abs/2303.11366" target="_blank">arxiv.org/abs/2303.11366</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangChain Plan-and-Execute 模式</h4>
+                    <p>学习 LangChain 官方实现的 Plan-and-Execute Agent 架构</p>
+                    <ul class="resource-list">
+                        <li>LangChain Plan-and-Execute 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/modules/agents/agent_types/plan_and_execute" target="_blank">python.langchain.com — Plan and Execute</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：实现 Plan-and-Execute Agent</h4>
+                    <p>构建一个能先规划任务步骤、再逐步执行的 Agent，并在执行后加入 Reflection 机制</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 5</span>Tool Calling 深入实践</div>
+                <div class="day-meta">
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangChain 自定义工具开发</h4>
+                    <p>学习 @tool 装饰器、Tool Schema 定义、工具参数验证</p>
+                    <ul class="resource-list">
+                        <li>LangChain Custom Tools 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/modules/agents/tools/" target="_blank">python.langchain.com — Custom Tools</a></li>
+                        <li>《手把手带你从 0 到 1 实现大模型 Agent》<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1Sz421m7Rr/" target="_blank">bilibili.com/BV1Sz421m7Rr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>MCP 协议概念入门</h4>
+                    <p>了解 Model Context Protocol 的基本概念，它是 Agent 工具连接的标准化协议</p>
+                    <ul class="resource-list">
+                        <li>MCP 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a></li>
+                        <li>MCP 完整指南 2026 <span class="resource-type type-doc">文档</span>
+                            <a href="https://agdex.ai/blog/mcp-complete-guide-2026" target="_blank">agdex.ai/blog/mcp-complete-guide-2026</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：开发 3 个自定义工具</h4>
+                    <p>天气查询工具、SQL 数据库查询工具、Web API 调用工具，并封装为 Agent 可用的标准格式</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：构建 SQL Agent</h4>
+                    <p>构建一个能根据自然语言查询数据库的 Agent</p>
+                    <ul class="resource-list">
+                        <li>LangChain SQL Agent 教程 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/modules/agents/agent_types/sql_agent" target="_blank">python.langchain.com — SQL Agent</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：链式工具调用 Agent</h4>
+                    <p>构建一个能根据用户问题自动选择和链式调用多个工具的 Agent</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 6 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 6</span>LangGraph 入门</div>
+                <div class="day-meta">
+                    <span class="tag tag-course">课程</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>LangGraph 系统学习（中文视频 + 官方文档）</h4>
+                    <p>LangChain 官方出品的免费课程，由框架开发者亲自讲解，这是学习 LangGraph 的最佳起点</p>
+                    <ul class="resource-list">
+                        <li>《2025 吃透 LangGraph 全套教程》47 集 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1wsoiYQENQ/" target="_blank">bilibili.com/BV1wsoiYQENQ</a></li>
+                        <li>《使用 LangGraph 构建智能 AI 应用》中文版 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1zKx4zWEZP/" target="_blank">bilibili.com/BV1zKx4zWEZP</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph 核心概念</h4>
+                    <p>StateGraph、State、Nodes、Edges、Conditional Edges、Checkpointer</p>
+                    <ul class="resource-list">
+                        <li>LangGraph 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank">docs.langchain.com — LangGraph Overview</a></li>
+                        <li>LangGraph 中文教程 <span class="resource-type type-doc">文档</span>
+                            <a href="https://blog.csdn.net/lovechris00/article/details/148014663" target="_blank">CSDN — LangGraph 官方文档翻译</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 LangGraph 构建带工具调用的聊天机器人</h4>
+                    <p>从零构建 StateGraph，添加 Agent 节点和 Tool 节点，用条件边控制流程</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Quickstart 教程 <span class="resource-type type-code">代码</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/introduction/" target="_blank">langchain-ai.github.io — Quickstart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 7 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 7</span>LangGraph 进阶 + Week 1 综合实战</div>
+                <div class="day-meta">
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-project">项目</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph 记忆与持久化</h4>
+                    <p>MemorySaver 检查点机制，实现 Agent 跨对话的记忆能力</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Memory 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/concepts/persistence/" target="_blank">langchain-ai.github.io — Persistence</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph Human-in-the-loop</h4>
+                    <p>在 Agent 执行过程中插入人工审核节点，实现关键决策的人工干预</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Human-in-the-loop 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/" target="_blank">langchain-ai.github.io — Human in the Loop</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">3h</div>
+                <div class="time-content">
+                    <h4>综合项目：研究助手 Agent</h4>
+                    <p>构建一个能搜索网络、分析信息、生成结构化报告的研究助手 Agent，综合运用本周所学：ReAct 范式 + 工具调用 + LangGraph 状态管理 + 记忆</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== WEEK 2 ==================== -->
+    <div class="week-section">
+        <div class="week-header">
+            <div class="week-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">W2</div>
+            <div>
+                <h2>第二周：多智能体系统与框架对比</h2>
+                <div class="week-goal">目标：掌握 LangGraph 高级模式、AutoGen、CrewAI 三大框架，理解 MCP 协议，能对比选型</div>
+            </div>
+        </div>
+
+        <!-- Day 8 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 8</span>LangGraph 高级模式：多 Agent 架构</div>
+                <div class="day-meta">
+                    <span class="tag tag-course">课程</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>LangGraph 多 Agent 模式学习（中文视频 + 官方文档）</h4>
+                    <p>学习高级 Agent 模式：复杂工作流、多 Agent 协作、子图等</p>
+                    <ul class="resource-list">
+                        <li>【2025版】LangChain1.0+LangGraph1.0：多智能体工作流实战 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV14bqhBsEVX/" target="_blank">bilibili.com/BV14bqhBsEVX</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph 多 Agent 模式</h4>
+                    <p>Supervisor 模式、Hierarchical 模式、多 Agent 通信机制</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Multi-Agent 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/multi_agent/multi-agent-collaboration/" target="_blank">langchain-ai.github.io — Multi-Agent Collaboration</a></li>
+                        <li>LangGraph Supervisor 模式 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/multi_agent/agent_supervisor/" target="_blank">langchain-ai.github.io — Agent Supervisor</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 LangGraph 构建多 Agent 协作系统</h4>
+                    <p>构建一个 Supervisor + Worker 模式的多 Agent 系统，如：规划 Agent + 编码 Agent + 审查 Agent</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 9 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 9</span>LangGraph 工作流模式 + 流式输出</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph 工作流设计模式</h4>
+                    <p>Prompt Chaining、Routing、Parallelization、Orchestrator-Workers、Evaluator-Optimizer 五种模式</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Workflows 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/workflows/" target="_blank">langchain-ai.github.io — Workflows and Agents</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>对照 Anthropic 文章理解 Agent 模式</h4>
+                    <p>将 LangGraph 的工作流模式与 Anthropic Building Effective Agents 中的 6 种模式对照学习</p>
+                    <ul class="resource-list">
+                        <li>Anthropic Building Effective Agents（复习）<span class="resource-type type-doc">文档</span>
+                            <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank">anthropic.com — Building Effective Agents</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph Streaming + 时间回溯</h4>
+                    <p>实时流式输出 Agent 思考过程，Time Travel 功能回溯和修改 Agent 状态</p>
+                    <ul class="resource-list">
+                        <li>LangGraph Streaming 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/how-tos/streaming-tokens/" target="_blank">langchain-ai.github.io — Streaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：构建带状态持久化的客服 Agent</h4>
+                    <p>Agent 能持久化对话状态、支持中断恢复、流式输出回复</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 10 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 10</span>AutoGen 多智能体框架入门</div>
+                <div class="day-meta">
+                    <span class="tag tag-course">课程</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>AutoGen 多智能体框架入门（中文视频 + 官方文档）</h4>
+                    <p>微软研究院出品的 AutoGen 官方课程，学习多 Agent 对话驱动协作模式</p>
+                    <ul class="resource-list">
+                        <li>AutoGen v0.4 框架介绍与 AgentChat 实战（中文）<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV17WcVeZERm/" target="_blank">bilibili.com/BV17WcVeZERm</a></li>
+                        <li>AutoGen Studio 构建私人开发团队（中文）<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1Qzo1YAEk7/" target="_blank">bilibili.com/BV1Qzo1YAEk7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>AutoGen 核心概念与安装</h4>
+                    <p>AssistantAgent、UserProxyAgent、ConversableAgent、GroupChat 的概念与配置</p>
+                    <ul class="resource-list">
+                        <li>AutoGen GitHub 仓库 <span class="resource-type type-code">代码</span>
+                            <a href="https://github.com/microsoft/autogen" target="_blank">github.com/microsoft/autogen</a></li>
+                        <li>AutoGen 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://microsoft.github.io/autogen/" target="_blank">microsoft.github.io/autogen</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 AutoGen 构建代码编写+审查+执行多 Agent</h4>
+                    <p>构建 Coder Agent + Reviewer Agent + Executor Agent，实现代码生成、审查、执行的自动化流程</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 11 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 11</span>AutoGen 进阶 + 数据分析项目</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>AutoGen GroupChat 与高级对话模式</h4>
+                    <p>SelectorGroupChat、RoundRobinGroupChat，自动选择发言者的机制</p>
+                    <ul class="resource-list">
+                        <li>AutoGen 0.4 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://microsoft.github.io/autogen/" target="_blank">microsoft.github.io/autogen</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>AutoGen 工具集成 + Human-in-the-loop</h4>
+                    <p>为 Agent 添加自定义工具，配置人工介入节点，Docker 代码沙箱</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>AutoGen vs LangGraph 对比分析</h4>
+                    <p>从架构设计、适用场景、开发复杂度、社区生态等维度系统对比两大框架</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 AutoGen 构建数据分析 Agent 团队</h4>
+                    <p>构建一个包含数据分析师、可视化专家、报告撰写者的多 Agent 团队，自动完成数据分析任务</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 12 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 12</span>CrewAI 角色驱动多智能体</div>
+                <div class="day-meta">
+                    <span class="tag tag-course">课程</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>CrewAI 角色驱动多智能体（中文视频 + 官方文档）</h4>
+                    <p>学习 CrewAI 的角色驱动架构，理解 Agent、Task、Crew、Tool 四大核心概念</p>
+                    <ul class="resource-list">
+                        <li>《CrewAI + FastAPI 构建多 Agent 应用》中文教程 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1JXawzqEtA/" target="_blank">bilibili.com/BV1JXawzqEtA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>CrewAI 官方文档与 Quickstart</h4>
+                    <p>安装 CrewAI CLI，创建项目，理解 YAML 配置方式</p>
+                    <ul class="resource-list">
+                        <li>CrewAI 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://docs.crewai.com" target="_blank">docs.crewai.com</a></li>
+                        <li>CrewAI GitHub <span class="resource-type type-code">代码</span>
+                            <a href="https://github.com/crewAIInc/crewAI" target="_blank">github.com/crewAIInc/crewAI</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 CrewAI 构建内容创作流水线</h4>
+                    <p>构建 Researcher → Writer → Editor 三 Agent 顺序协作，完成从调研到成文的全流程</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 13 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 13</span>CrewAI 进阶 + 三框架对比实战</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>CrewAI Flows：事件驱动编排</h4>
+                    <p>学习 @start / @listen / @router 装饰器，实现确定性事件驱动工作流</p>
+                    <ul class="resource-list">
+                        <li>CrewAI Flows 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://docs.crewai.com/concepts/flows" target="_blank">docs.crewai.com/concepts/flows</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>CrewAI Memory + Tools + 层级模式</h4>
+                    <p>短期/长期/实体记忆，内置 50+ 工具，Hierarchical Process 管理者 Agent</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph vs AutoGen vs CrewAI 全面对比</h4>
+                    <p>从架构、灵活性、学习曲线、生产成熟度、成本控制、适用场景等维度制作对比表</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：同一任务用三个框架分别实现</h4>
+                    <p>选择一个任务（如「研究某个主题并生成报告」），分别用 LangGraph、AutoGen、CrewAI 实现，亲身感受三者差异</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 14 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 14</span>MCP 协议实战 + Agent 通信</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>MCP 协议完整学习</h4>
+                    <p>Host/Client/Server 三角色架构，Tools/Resources/Prompts 三种能力，Stdio vs HTTP 传输</p>
+                    <ul class="resource-list">
+                        <li>MCP 官方文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a></li>
+                        <li>MCP 完整指南 2026 <span class="resource-type type-doc">文档</span>
+                            <a href="https://agdex.ai/blog/mcp-complete-guide-2026" target="_blank">agdex.ai — MCP Complete Guide 2026</a></li>
+                        <li>MCP 官方文档中文站 <span class="resource-type type-doc">文档</span>
+                            <a href="https://modelcontextprotocol.io/zh-CN" target="_blank">modelcontextprotocol.io/zh-CN</a></li>
+                        <li>【2025版】LangChain1.0 第 7 章：全面理解 MCP 协议 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV14bqhBsEVX/" target="_blank">bilibili.com/BV14bqhBsEVX</a></li>
+                        <li>LangGraph 实战：高德地图 MCP Server 全流程 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1V7EfzDERy/" target="_blank">bilibili.com/BV1V7EfzDERy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Hello-Agents：智能体通信协议</h4>
+                    <p>MCP、A2A、ANP 等协议的对比与解析</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第十章「智能体通信协议」<span class="resource-type type-doc">文档</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：构建一个 MCP Server</h4>
+                    <p>用 Python 或 TypeScript 构建一个自定义 MCP Server，暴露工具能力</p>
+                    <ul class="resource-list">
+                        <li>MCP Python SDK <span class="resource-type type-code">代码</span>
+                            <a href="https://github.com/modelcontextprotocol/python-sdk" target="_blank">github.com/modelcontextprotocol/python-sdk</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：将 MCP Server 集成到 Agent</h4>
+                    <p>在 LangChain/CrewAI 中使用 langchain-mcp-adapters 连接 MCP Server</p>
+                    <ul class="resource-list">
+                        <li>LangChain MCP Adapters <span class="resource-type type-code">代码</span>
+                            <a href="https://github.com/langchain-ai/langchain-mcp-adapters" target="_blank">github.com/langchain-ai/langchain-mcp-adapters</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== WEEK 3 ==================== -->
+    <div class="week-section">
+        <div class="week-header">
+            <div class="week-icon" style="background: linear-gradient(135deg, #10b981, #059669);">W3</div>
+            <div>
+                <h2>第三周：工程化、评估与项目实战</h2>
+                <div class="week-goal">目标：掌握记忆系统、RAG、评估体系、可观测性、生产部署，完成毕业项目</div>
+            </div>
+        </div>
+
+        <!-- Day 15 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 15</span>Agent 记忆系统</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>记忆系统理论与架构</h4>
+                    <p>短期记忆（上下文窗口）、长期记忆（向量存储）、情景记忆、实体记忆</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第八章「记忆与检索」<span class="resource-type type-doc">文档</span></li>
+                        <li>Anthropic：Building Agents with Claude Agent SDK — 记忆与上下文管理 <span class="resource-type type-doc">文档</span>
+                            <a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk/" target="_blank">anthropic.com — Building Agents with Claude Agent SDK</a></li>
+                        <li>LangGraph 实战：长期/短期记忆集成 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1uE75zEE2V/" target="_blank">bilibili.com/BV1uE75zEE2V</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangChain Memory + Mem0 工具</h4>
+                    <p>LangChain 内置记忆组件，Mem0 作为独立的 Agent 记忆层</p>
+                    <ul class="resource-list">
+                        <li>LangChain Memory 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/modules/memory/" target="_blank">python.langchain.com — Memory</a></li>
+                        <li>Mem0 GitHub <span class="resource-type type-tool">工具</span>
+                            <a href="https://github.com/mem0ai/mem0" target="_blank">github.com/mem0ai/mem0</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：为 Agent 添加长期记忆</h4>
+                    <p>使用向量数据库实现 Agent 的跨会话记忆，能记住用户偏好和历史交互</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 16 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 16</span>RAG for Agents</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>RAG 基础与进阶</h4>
+                    <p>文档加载、切分策略、Embedding、向量检索、Reranking、混合检索</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第八章 RAG 部分 <span class="resource-type type-doc">文档</span></li>
+                        <li>LangChain RAG 教程 <span class="resource-type type-doc">文档</span>
+                            <a href="https://python.langchain.com/docs/use_cases/question_answering/" target="_blank">python.langchain.com — Q&A with RAG</a></li>
+                        <li>黑马《大模型 RAG 与 Agent 智能体实战》<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1yjz5BLEoY/" target="_blank">bilibili.com/BV1yjz5BLEoY</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>向量数据库实践</h4>
+                    <p>Chroma（本地开发）、Pinecone（生产级）、Milvus（大规模）的使用与对比</p>
+                    <ul class="resource-list">
+                        <li>Chroma 文档 <span class="resource-type type-tool">工具</span>
+                            <a href="https://www.trychroma.com" target="_blank">trychroma.com</a></li>
+                        <li>【2025版】LangChain1.0 第 4-5 章：向量化 + RAG 实战 <span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV14bqhBsEVX/" target="_blank">bilibili.com/BV14bqhBsEVX</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：构建带知识库的 Agent</h4>
+                    <p>将 PDF/文档导入向量数据库，构建一个能基于私有知识库回答问题的 Agent</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 17 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 17</span>Agent 评估体系</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>Agent 评估理论与指标体系</h4>
+                    <p>任务完成率、轨迹评估、LLM-as-Judge、Win Rate、人工评估</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第十二章「智能体性能评估」<span class="resource-type type-doc">文档</span></li>
+                        <li>吴恩达《Agentic AI 2026》中英字幕版（含 Evals 评估章节）<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1vNrhB1ETv/" target="_blank">bilibili.com/BV1vNrhB1ETv</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangSmith 评估系统</h4>
+                    <p>使用 LangSmith 构建 Agent 评估数据集、评估器、评估流水线</p>
+                    <ul class="resource-list">
+                        <li>LangSmith 评估文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://docs.smith.langchain.com/evaluation" target="_blank">docs.smith.langchain.com/evaluation</a></li>
+                        <li>LangSmith 全面指南（中文版）<span class="resource-type type-doc">文档</span>
+                            <a href="https://blog.csdn.net/Lvyizhuo/article/details/161053832" target="_blank">CSDN — LangSmith 中文教程</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：用 LangSmith 评估 Agent 性能</h4>
+                    <p>为之前构建的 Agent 项目创建评估数据集，运行评估，分析结果并迭代优化</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 18 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 18</span>可观测性与调试</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangSmith Tracing 深入</h4>
+                    <p>Agent 执行轨迹可视化、状态转换追踪、Token 消耗分析</p>
+                    <ul class="resource-list">
+                        <li>LangSmith Tracing 文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://docs.smith.langchain.com/observability" target="_blank">docs.smith.langchain.com — Observability</a></li>
+                        <li>Agent 可观测性实战：LangSmith 追踪中文教程 <span class="resource-type type-doc">文档</span>
+                            <a href="https://sihanli.blog.csdn.net/article/details/160423487" target="_blank">CSDN — LangSmith 可观测性中文教程</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Langfuse 开源可观测性平台</h4>
+                    <p>开源替代方案，自部署 Agent 可观测性平台</p>
+                    <ul class="resource-list">
+                        <li>Langfuse GitHub <span class="resource-type type-tool">工具</span>
+                            <a href="https://github.com/langfuse/langfuse" target="_blank">github.com/langfuse/langfuse</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Agent 调试技巧</h4>
+                    <p>LangGraph Studio 可视化、状态回溯调试、断点调试、错误日志分析</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：为已有 Agent 添加可观测性</h4>
+                    <p>为 Week 1-2 的 Agent 项目集成 LangSmith/Langfuse，实现全链路追踪</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 19 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 19</span>生产部署与工程化</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>LangGraph Platform 部署</h4>
+                    <p>使用 langgraph dev 本地部署、LangGraph Cloud 云端部署</p>
+                    <ul class="resource-list">
+                        <li>LangGraph 部署文档 <span class="resource-type type-doc">文档</span>
+                            <a href="https://langchain-ai.github.io/langgraph/tutorials/langgraph-platform/local-server/" target="_blank">langchain-ai.github.io — Local Deploy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Agent 成本控制与性能优化</h4>
+                    <p>Token 优化策略、模型路由（简单任务用小模型）、缓存、上下文压缩</p>
+                    <ul class="resource-list">
+                        <li>Anthropic Agent SDK — Compaction 上下文压缩 <span class="resource-type type-doc">文档</span>
+                            <a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk/" target="_blank">anthropic.com — Claude Agent SDK</a></li>
+                        <li>《从零构建生产级 Agent 服务》（FastAPI + MCP + 记忆 + 故障恢复）<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1pcMbz9Epz/" target="_blank">bilibili.com/BV1pcMbz9Epz</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>Agent 安全与防护</h4>
+                    <p>Prompt Injection 防御、工具权限控制、沙箱执行、PII 数据脱敏</p>
+                    <ul class="resource-list">
+                        <li>OWASP LLM Top 10 <span class="resource-type type-doc">文档</span>
+                            <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank">owasp.org — LLM Top 10</a></li>
+                        <li>OWASP LLM Top 10 中文版 <span class="resource-type type-doc">文档</span>
+                            <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/descriptions/zh-cn/" target="_blank">owasp.org — LLM Top 10 中文</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>错误处理与重试策略</h4>
+                    <p>工具调用失败的降级策略、Agent 死循环检测与终止条件设计</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>实践：用 FastAPI 封装 Agent API</h4>
+                    <p>将 Agent 封装为 REST API，支持流式响应、并发处理</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 20 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 20</span>从零构建 Agent 框架</div>
+                <div class="day-meta">
+                    <span class="tag tag-theory">理论</span>
+                    <span class="tag tag-practice">实践</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>Hello-Agents 第七章：构建你的 Agent 框架</h4>
+                    <p>理解 SimpleAgent 核心类、ToolRegistry、LLM 接口适配、记忆管理模块</p>
+                    <ul class="resource-list">
+                        <li>Hello-Agents 第七章「构建你的 Agent 框架」<span class="resource-type type-doc">文档</span></li>
+                        <li>HelloAgents 框架源码 <span class="resource-type type-code">代码</span>
+                            <a href="https://github.com/datawhalechina/hello-agents" target="_blank">github.com/datawhalechina/hello-agents</a></li>
+                        <li>《手把手带你从 0 到 1 实现大模型 Agent》（不依赖框架手写）<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1Sz421m7Rr/" target="_blank">bilibili.com/BV1Sz421m7Rr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>HelloAgents 框架源码分析</h4>
+                    <p>阅读框架源码，理解工具注册、状态管理、循环控制的核心实现</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>实践：从零构建迷你 Agent 框架</h4>
+                    <p>基于 OpenAI 原生 API，从零实现一个包含工具注册、ReAct 循环、记忆管理的迷你 Agent 框架</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 21 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title"><span class="day-num">Day 21</span>毕业项目：自动化深度研究智能体</div>
+                <div class="day-meta">
+                    <span class="tag tag-project">项目</span>
+                    <span class="tag tag-hours">5h</span>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>需求分析与架构设计</h4>
+                    <p>设计一个自动化深度研究智能体：输入研究主题 → 自动规划研究步骤 → 多源搜索 → 信息分析综合 → 生成结构化研究报告</p>
+                    <ul class="resource-list">
+                        <li>参考 Hello-Agents 第十四章「自动化深度研究智能体」<span class="resource-type type-doc">文档</span></li>
+                        <li>程序员鱼皮《AI 超级智能体项目》<span class="resource-type type-video">视频</span>
+                            <a href="https://www.bilibili.com/video/BV1UoLezKEbm/" target="_blank">bilibili.com/BV1UoLezKEbm</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">2h</div>
+                <div class="time-content">
+                    <h4>核心功能实现</h4>
+                    <p>使用 Week 1-3 所学技术栈实现核心 Agent 循环：规划 + 搜索 + 分析 + 写作，可选择 LangGraph / AutoGen / CrewAI 任一框架</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>集成评估与测试</h4>
+                    <p>用 LangSmith 评估输出质量，测试边缘情况，优化 Prompt 和工具</p>
+                </div>
+            </div>
+            <div class="time-block">
+                <div class="time-label">1h</div>
+                <div class="time-content">
+                    <h4>部署与项目文档</h4>
+                    <p>用 FastAPI 封装 API 接口，编写 README 文档，整理项目结构，准备作品集展示</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== RESOURCES ==================== -->
+    <div class="resources-section">
+        <h2>核心学习资源汇总</h2>
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h4>Hello-Agents (Datawhale)</h4>
+                <p>系统性智能体学习教程，从零到多智能体系统，理论与实战并重。52.5k+ Stars</p>
+                <a href="https://github.com/datawhalechina/hello-agents" target="_blank">github.com/datawhalechina/hello-agents</a>
+            </div>
+            <div class="resource-card">
+                <h4>中文视频：吴恩达《Agentic AI 2026》</h4>
+                <p>中英字幕完结版，覆盖反思模式、工具使用、MCP、Evals、多智能体设计模式，中文主线首选</p>
+                <a href="https://www.bilibili.com/video/BV1vNrhB1ETv/" target="_blank">bilibili.com/BV1vNrhB1ETv</a>
+            </div>
+            <div class="resource-card">
+                <h4>中文视频：LangGraph 全套教程</h4>
+                <p>《2025 吃透 LangGraph 全套教程》47 集，B 站最全的 LangGraph 系统中文课</p>
+                <a href="https://www.bilibili.com/video/BV1wsoiYQENQ/" target="_blank">bilibili.com/BV1wsoiYQENQ</a>
+            </div>
+            <div class="resource-card">
+                <h4>中文视频：LangChain1.0 实战</h4>
+                <p>2025版 LangChain1.0 + LangGraph1.0 入门到实战，覆盖 RAG、Ollama、MCP、多智能体工作流</p>
+                <a href="https://www.bilibili.com/video/BV14bqhBsEVX/" target="_blank">bilibili.com/BV14bqhBsEVX</a>
+            </div>
+            <div class="resource-card">
+                <h4>中文视频：黑马 RAG 与 Agent 实战</h4>
+                <p>《大模型 RAG 与 Agent 智能体实战》，含 ReAct 行动框架逐帧演示，配套开源代码</p>
+                <a href="https://www.bilibili.com/video/BV1yjz5BLEoY/" target="_blank">bilibili.com/BV1yjz5BLEoY</a>
+            </div>
+            <div class="resource-card">
+                <h4>中文文档：Datawhale 大模型手册</h4>
+                <p>吴恩达 Prompt Engineering 等课程的中文版教程 + 可运行 Notebook，替代英文课程首选</p>
+                <a href="https://github.com/datawhalechina/prompt-engineering-for-developers" target="_blank">github.com/datawhalechina</a>
+            </div>
+            <div class="resource-card">
+                <h4>Anthropic Engineering Blog</h4>
+                <p>Building Effective Agents + Claude Agent SDK，Agent 工程实践最权威指南</p>
+                <a href="https://www.anthropic.com/engineering" target="_blank">anthropic.com/engineering</a>
+            </div>
+            <div class="resource-card">
+                <h4>LangGraph 官方文档</h4>
+                <p>LangGraph 完整文档、教程、API 参考，包含 Quickstart 和 Workflows 模式</p>
+                <a href="https://langchain-ai.github.io/langgraph/" target="_blank">langchain-ai.github.io/langgraph</a>
+            </div>
+            <div class="resource-card">
+                <h4>AutoGen (Microsoft)</h4>
+                <p>微软多智能体对话框架，42k+ Stars，支持 GroupChat、代码执行、Human-in-the-loop</p>
+                <a href="https://github.com/microsoft/autogen" target="_blank">github.com/microsoft/autogen</a>
+            </div>
+            <div class="resource-card">
+                <h4>CrewAI 官方文档</h4>
+                <p>角色驱动的多智能体框架，Agents + Tasks + Crews + Flows，内置 50+ 工具</p>
+                <a href="https://docs.crewai.com" target="_blank">docs.crewai.com</a>
+            </div>
+            <div class="resource-card">
+                <h4>MCP 官方文档</h4>
+                <p>Model Context Protocol — Agent 工具连接的行业标准协议，已被 OpenAI/Google 采纳</p>
+                <a href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a>
+            </div>
+            <div class="resource-card">
+                <h4>AgentGuide 路线图</h4>
+                <p>Agent 开发工程师学习路线图（工程落地版 + 算法研究版），含每日计划和资源</p>
+                <a href="https://github.com/adongwanai/AgentGuide" target="_blank">github.com/adongwanai/AgentGuide</a>
+            </div>
+            <div class="resource-card">
+                <h4>LangSmith</h4>
+                <p>LangChain 官方可观测性 + 评估平台，Agent Tracing、Evaluation、Prompt Management</p>
+                <a href="https://docs.smith.langchain.com" target="_blank">docs.smith.langchain.com</a>
+            </div>
+            <div class="resource-card">
+                <h4>Langfuse (开源)</h4>
+                <p>开源 LLM 可观测性平台，可自部署，支持 Tracing、评估、Prompt 管理</p>
+                <a href="https://github.com/langfuse/langfuse" target="_blank">github.com/langfuse/langfuse</a>
+            </div>
+            <div class="resource-card">
+                <h4>OpenAI Cookbook</h4>
+                <p>OpenAI 官方示例库，Function Calling、Structured Outputs、Agent 最佳实践</p>
+                <a href="https://cookbook.openai.com" target="_blank">cookbook.openai.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TIPS ==================== -->
+    <div class="tips-section">
+        <h2>学习建议</h2>
+        <ul>
+            <li><b>理论实践 1:1</b> — 每学完一个概念立即动手写代码，不要囤积理论。每个时间块的「实践」部分都是核心。</li>
+            <li><b>一个 API Key 走天下</b> — 建议用 OpenAI API（或兼容接口），所有框架都原生支持，避免环境问题浪费学习时间。</li>
+            <li><b>优先跑通再深究</b> — 先让代码跑起来看到效果，再回头读源码理解原理。正向反馈比完美主义重要。</li>
+            <li><b>不要一次学完所有视频</b> — 中文视频课程（LangChain/LangGraph/AutoGen/CrewAI）每门几十集，按计划对应章节学，完成一章 → 动手复现 → 再学下一章。</li>
+            <li><b>Hello-Agents 是主线</b> — 你已经在看这个教程，它将作为 21 天计划的主干，其他资源是支线补充。</li>
+            <li><b>做好笔记和代码管理</b> — 每天的实践代码用 Git 管理，学完一周做一次总结回顾。</li>
+            <li><b>加入社区</b> — LangChain Discord、Datawhale 社区、AutoGen GitHub Discussions，遇到问题及时求助。</li>
+            <li><b>成本意识</b> — 用 GPT-4o-mini 做开发测试，GPT-4o 做最终验证。GroupChat 场景注意控制轮数防止 Token 爆炸。</li>
+            <li><b>毕业项目要拿得出手</b> — Day 21 的毕业项目要做成可以放进简历/作品集的质量，包含完整文档和在线 Demo。</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>Agent 开发工程师学习计划 | 21 天 ~105 小时 | Python 生态</p>
+        <p>基于你的背景定制：Python 基础 + LangChain 入门 + Hello-Agents 教程进行中</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
