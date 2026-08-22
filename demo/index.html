@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>FastAPI Agent对话窗口</title>
+    <style>
+        *{box-sizing: border-box;margin:0;padding:0;font-family:system-ui}
+        body{max-width:800px;margin:20px auto;padding:0 10px;}
+        #chat-box{
+            height:550px;
+            border:1px solid #ccc;
+            padding:16px;
+            overflow-y:auto;
+            border-radius:8px;
+            margin-bottom:12px;
+        }
+        .msg{margin:8px 0;padding:10px 14px;border-radius:8px;max-width:75%;}
+        .user{background:#007bff;color:#fff;margin-left:auto;}
+        .agent{background:#f1f1f1;color:#222;margin-right:auto;}
+        .input-area{display:flex;gap:8px;}
+        #input-text{flex:1;padding:12px;font-size:16px;border:1px solid #ccc;border-radius:6px;}
+        #send-btn{padding:12px 20px;background:#007bff;color:white;border:none;border-radius:6px;cursor:pointer;}
+    </style>
+</head>
+<body>
+<h2>AI智能体对话</h2>
+<div id="chat-box"></div>
+<div class="input-area">
+    <input type="text" id="input-text" placeholder="输入消息，回车或点击发送">
+    <button id="send-btn">发送</button>
+</div>
+
+<script>
+const chatBox = document.getElementById('chat-box');
+const inputText = document.getElementById('input-text');
+const sendBtn = document.getElementById('send-btn');
+
+// 保存对话历史
+let history = [];
+// 多轮对话会话 id（首次为空，由后端生成后返回）
+let threadId = null;
+
+// 渲染消息
+function addMessage(text, isUser){
+    const div = document.createElement('div');
+    div.className = "msg " + (isUser ? "user":"agent");
+    div.innerText = text;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage(){
+    const msg = inputText.value.trim();
+    if(!msg) return;
+    addMessage(msg, true);
+    history.push({role:"user", content:msg});
+    inputText.value = "";
+
+    // 请求后端接口
+    const res = await fetch("/api/chat",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            message: msg,
+            history: history,
+            thread_id: threadId
+        })
+    })
+    const data = await res.json();
+    threadId = data.thread_id;   // 保存会话 id，供后续多轮对话使用
+    addMessage(data.reply, false);
+    history.push({role:"assistant", content:data.reply});
+}
+
+sendBtn.onclick = sendMessage;
+inputText.onkeydown = (e)=>{
+    if(e.key === 'Enter') sendMessage();
+}
+</script>
+</body>
+</html>
